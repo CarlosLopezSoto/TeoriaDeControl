@@ -1,49 +1,61 @@
-/*
-  This program blinks pin 13 of the Arduino (the
-  built-in LED)
-*/
-
+int freq;
 String tipo;
-String input = "";
-void setup()
-{
-  pinMode(13, OUTPUT);
-  Serial.begin(9600);
+int comenzar;
+
+void setup() {
+	Serial.begin(9600); // Iniciar el monitor Serial
 }
 
-void loop()
-{
-  if (Serial.available()) {
-   input= Serial.readString();
-    input.trim();
-		if (input.length()>0) {
-			tipo=input;
-		}
+void loop() {
+  Serial.println("Si desea empezar escriba 1");
+  while (Serial.available() == 0) 
+  {
+    // Wait for User to Input Data
   }
   
-  if(tipo=="SINE")
+  comenzar = Serial.parseInt(); //Read the data the user has input
+  if(comenzar==1)
   {
-  Serial.println("Comenzo Sine");  
+    Serial.println("Ingrese la frecuencia en Hz");
+    while (Serial.available() == 0) 
+    {
+      // Wait for User to Input Data
+    }
+    freq = Serial.parseInt(); //Read the data the user has input
+
+    // Imprimir en el monitor serial la frecuencia generada
+    Serial.print("La frecuencia es de:");
+    Serial.print(freq);
+    Serial.print("Hz");
+    Serial.println();
+    Serial.println("Ingrese el tipo de grafico a realizar");
+    while(Serial.available() == 0)
+    {
+      // Wait for User to Input Data
+    }
+    tipo = Serial.readString();
+    
+    if(tipo=="SINE")
+    {
+    Serial.println("Comenzo Sine");  
+    }
+    
+    if(tipo=="SQUARE")
+    {
+      {
+        tone(12, freq); // Definir el pin de OUTPUT, y la frecuencia generada
+        delay(2000); // Genera la frecuencia por 2 segundos
+      }
+    }
+    if(tipo=="RAMP")
+    {
+    Serial.println("Comenzo RAMP");  
+    }
+
+    if(tipo=="RAMP2")
+    {
+    Serial.println("Comenzo RAMP2");  
+    }
   }
-  if(tipo=="SQUARE")
-  {
-  Serial.println("Comenzo SQUARE");
-     // turn the LED on (HIGH is the voltage level)
-  digitalWrite(13, HIGH);
-  delay(5); // Wait for 1000 millisecond(s)
-  // turn the LED off by making the voltage LOW
-  digitalWrite(13, LOW);
-  
-  delay(5); // Wait for 1000 millisecond(s)
-  }
-  if(tipo=="RAMP")
-  {
-  Serial.println("Comenzo RAMP");  
-  }
-  if(tipo=="RAMP2")
-  {
-  Serial.println("Comenzo RAMP2");  
-  }
-  
- 
 }
+
