@@ -1,0 +1,32 @@
+//Funcion SQUARE que pregunta si el usuario quiere graficar o no 
+//Arduino con un generador de frequencia (Onda Cuadrada)
+int input;
+int freq;
+void setup() {
+	Serial.begin(9600); // Iniciar el monitor Serial
+}
+
+void loop() {
+  Serial.println("Para comenzar la onda presione 1.");
+  while (Serial.available() == 0) {
+    // Wait for User to Input Data
+  }
+  input = Serial.parseInt(); //Read the data the user has input
+  
+  if(input==1){
+    Serial.println("Ingrese la frecuencia");
+    while (Serial.available() == 0) {
+      // Wait for User to Input Data
+    }
+    freq = Serial.parseInt(); //Read the data the user has input
+    
+    // Imprimir en el monitor serial la frecuencia generada
+    Serial.print("La frecuencia es de:");
+    Serial.println(freq);
+    Serial.println("hz")
+    {
+      tone(6, freq); // Definir el pin de OUTPUT, y la frecuencia generada
+      delay(2000); // Genera la frecuencia por 2 segundos
+    }
+  }
+}
