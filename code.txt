@@ -47,3 +47,33 @@ void loop()
   
  
 }
+
+
+/////Este lucianito
+int freq;
+
+void setup() {
+	Serial.begin(9600); // Iniciar el monitor Serial
+}
+
+void loop() {
+  while (Serial.available() == 0) 
+  {
+    // Wait for User to Input Data
+  }
+  freq = Serial.parseInt(); //Read the data the user has input
+  
+  // Imprimir en el monitor serial la frecuencia generada
+  Serial.print("La frecuencia es de:");
+  Serial.print(freq);
+  Serial.print("Hz");
+  if(freq!=0)
+  {
+    
+  }
+  Serial.println();
+  {
+    tone(12, freq); // Definir el pin de OUTPUT, y la frecuencia generada
+    delay(2000); // Genera la frecuencia por 2 segundos
+  }
+}
