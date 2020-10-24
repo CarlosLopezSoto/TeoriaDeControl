@@ -13,3 +13,25 @@ void loop() {
     delay(2000); // Genera la frecuencia por 2 segundos
   }
 }
+
+
+//LA MISMA FUNCION PERO AGREGANDO LA POSIBILIDAD DE QUE EL USUARIO INGRESE LA FRECUENCIA DESEADA
+//Arduino con un generador de frequencia (Onda Cuadrada)
+int freq;
+void setup() {
+	Serial.begin(9600); // Iniciar el monitor Serial
+}
+
+void loop() {
+  while (Serial.available() == 0) {
+    // Wait for User to Input Data
+  }
+  freq = Serial.parseInt(); //Read the data the user has input
+  
+  // Imprimir en el monitor serial la frecuencia generada
+  Serial.println("La frecuencia es de: 50 Hz");
+  {
+    tone(6, 50); // Definir el pin de OUTPUT, y la frecuencia generada
+    delay(2000); // Genera la frecuencia por 2 segundos
+  }
+}
