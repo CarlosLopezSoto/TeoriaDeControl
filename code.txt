@@ -49,31 +49,50 @@ void loop()
 }
 
 
-/////Este lucianito
 int freq;
+String tipo;
+int comenzar;
 
 void setup() {
 	Serial.begin(9600); // Iniciar el monitor Serial
 }
 
 void loop() {
+  Serial.println("Si desea empezar escriba 1");
   while (Serial.available() == 0) 
   {
     // Wait for User to Input Data
   }
-  freq = Serial.parseInt(); //Read the data the user has input
   
-  // Imprimir en el monitor serial la frecuencia generada
-  Serial.print("La frecuencia es de:");
-  Serial.print(freq);
-  Serial.print("Hz");
-  if(freq!=0)
+  comenzar = Serial.parseInt(); //Read the data the user has input
+  if(comenzar==1)
   {
-    
-  }
-  Serial.println();
-  {
-    tone(12, freq); // Definir el pin de OUTPUT, y la frecuencia generada
-    delay(2000); // Genera la frecuencia por 2 segundos
+    Serial.println("Ingrese la frecuencia en Hz");
+    while (Serial.available() == 0) 
+    {
+      // Wait for User to Input Data
+    }
+    freq = Serial.parseInt(); //Read the data the user has input
+
+    // Imprimir en el monitor serial la frecuencia generada
+    Serial.print("La frecuencia es de:");
+    Serial.print(freq);
+    Serial.print("Hz");
+    Serial.println();
+    Serial.println("Ingrese el tipo de grafico a realizar");
+    while(Serial.available() == 0)
+    {
+      // Wait for User to Input Data
+    }
+    tipo = Serial.readString();
+   
+    if(tipo=="SQUARE")
+    {
+      {
+        tone(12, freq); // Definir el pin de OUTPUT, y la frecuencia generada
+        delay(2000); // Genera la frecuencia por 2 segundos
+      }
+    }
   }
 }
+
