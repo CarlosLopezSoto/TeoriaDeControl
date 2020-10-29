@@ -1,0 +1,31 @@
+-- indexOf() -- 
+Recibe un string y te devuelve la posicion donde esta el char que estas buscando.
+
+myString.indexOf(val)
+myString.indexOf(val, from)
+
+myString: a variable of type String.
+val: the value to search for. Allowed data types: char, String.
+from: the index to start the search from.
+
+The index of val within the String, or -1 if not found.
+
+-- length() -- 
+Para saber la longitud de un string
+
+myString.length()
+
+myString: a variable of type String.
+The length of the String in characters.
+
+-- substring() -- 
+Para cortar un string desde hasta donde queremos
+
+myString.substring(from)
+myString.substring(from, to)
+
+myString: a variable of type String.
+from: the index to start the substring at.
+to (optional): the index to end the substring before.
+
+
