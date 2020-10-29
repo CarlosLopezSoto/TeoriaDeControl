@@ -1,53 +1,64 @@
+//VARIABLES PARA LA FUNCION INICIAL
 int freq;
 String tipo;
+String input;
+String subInput;
+int longitudFuncion;
+String funcion;
 int comenzar;
+
+//VARIABLES PARA GRAFICAR LAS ONDAS
 double d;
 
 
 void setup() {
 	Serial.begin(9600); // Iniciar el monitor Serial
+
+  //Mostramos al usuario la forma de ingresar la onda y frecuencia que desea
+  Serial.println("Ingrese el comando que desea ejecutar, indicando la frecuencia:");
+  Serial.println("1. SIN(frecuencia)");
+  Serial.println("2. SQUARE(frecuencia)");
+  Serial.println("3. RAMP(frecuencia)");
+  Serial.println("4. RAMP2(frecuencia)");
+
+  while (Serial.available() == 0) {} // Wait for User to Input Data 
+  input = Serial.readString(); //Read the data the user has input
+  input.toUpperCase(); //Pasarlo a uppercase en caso de que el usuario haya ingresado en minuscula
+  
+  longitudFuncion = input.indexOf('('); //Guardar la posicion donde se encuentra el primer parentesis
+  funcion = input.substring(0, longitudFuncion); //Cortar el string de input hasta el primer parentesis para obtener el comando
+  freq = input.substring((longitudFuncion+1), (input.length()-1)).toInt(); //Cortar el string de input desde despues del parentesis hasta antes del parentesis para obtener la frecuencia 
+
+  Serial.print("La funcion es: ");
+  Serial.println(funcion);
+  Serial.print("La frecuencia es: ");
+  Serial.print(freq);
+  Serial.println(" HZ");
+  Serial.println("----------------------");
+  Serial.println("----------------------");
 }
 
 void loop() {
-  Serial.println("Si desea empezar escriba 1");
-  while (Serial.available() == 0) 
-  {
-    // Wait for User to Input Data
-  }
+  Serial.println("Cuando desee graficar, ingrese un 1.");
+  while (Serial.available() == 0) {} // Wait for User to Input Data
   
   comenzar = Serial.parseInt(); //Read the data the user has input
   if(comenzar==1)
-  {
-    Serial.println("Ingrese la frecuencia en Hz");
-    while (Serial.available() == 0) 
+  { 
+    if(funcion=="SIN")
     {
-      // Wait for User to Input Data
-    }
-    freq = Serial.parseInt(); //Read the data the user has input
-
-    // Imprimir en el monitor serial la frecuencia generada
-    Serial.print("La frecuencia es de:");
-    Serial.print(freq);
-    Serial.print("Hz");
-    Serial.println();
-    Serial.println("Ingrese el tipo de grafico a realizar");
-    while(Serial.available() == 0)
+        for (int i = 0; i < 360; i++){
+          Serial.println(2.5 + (2.5*sin(DEG_TO_RAD * i )));
+        }
+    }  
+    if(funcion=="SQUARE")
     {
-      // Wait for User to Input Data
+      tone(3, freq); // Definir el pin de OUTPUT, y la frecuencia generada
     }
-    tipo = Serial.readString();
-   
-    if(tipo=="SQUARE")
-    {
-      {
-        tone(3, freq); // Definir el pin de OUTPUT, y la frecuencia generada
-      
-      }
-    }
-    if(tipo=="RAMP")
+    if(funcion=="RAMP")
     {   
   	  d = 1000 / freq;
-      while(tipo=="RAMP")
+      while(funcion=="RAMP")
       {
         for(int i=0;i<20;i++) {
           Serial.print(map(i, 0, 19, 0, 255));
@@ -56,11 +67,10 @@ void loop() {
         }  
       }
     }
-    if(tipo=="RAMP2")
+    if(funcion=="RAMP2")
     {
       d = 1000 / freq; 
-
-      while(tipo=="RAMP2")
+      while(funcion=="RAMP2")
       {
         for(int i=0;i<10;i++) {
           Serial.print(map(i, 0, 9, 0, 255));
