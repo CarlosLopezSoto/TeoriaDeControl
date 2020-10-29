@@ -1,0 +1,38 @@
+int freq;
+String tipo;
+String input;
+String subInput;
+double d;
+int longitudFuncion;
+String funcion;
+int longitudInput;
+
+
+void setup() {
+	Serial.begin(9600); // Iniciar el monitor Serial
+
+  Serial.println("Ingrese el comando que desea ejecutar, indicando la frecuencia:");
+  Serial.println("1. SIN(frecuencia)");
+  Serial.println("2. SQUARE(frecuencia)");
+  Serial.println("3. RAMP(frecuencia)");
+  Serial.println("4. RAMP2(frecuencia)");
+
+  while (Serial.available() == 0) {} // Wait for User to Input Data 
+
+  input = Serial.readString(); //Read the data the user has input
+  input.toUpperCase();
+
+  longitudInput = input.length();
+  longitudFuncion = input.indexOf('('); //Guardar la posicion donde se encuentra el parentesis
+  funcion = input.substring(0, longitudFuncion); //Cortar el string de input hasta el primer parentesis para obtener la funcion
+  freq = input.substring((longitudFuncion+1), (longitudInput-1)).toInt(); //Cortar el string de input desde despues del parentesis hasta antes del parentesis para obtener la frecuencia 
+
+  Serial.print("La funcion es: ");
+  Serial.println(funcion);
+  Serial.print("La frecuencia es: ");
+  Serial.println(freq);
+}
+
+void loop() {
+  
+}
