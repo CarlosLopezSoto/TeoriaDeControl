@@ -10,8 +10,14 @@ int comenzar;
 //VARIABLES PARA GRAFICAR LAS ONDAS
 double d;
 
+//Seno
+#define pwm 11
+float sine;
+int sine_i;
+
 
 void setup() {
+  pinMode(pwm, OUTPUT);
 	Serial.begin(9600); // Iniciar el monitor Serial
 
   //Mostramos al usuario la forma de ingresar la onda y frecuencia que desea
@@ -46,10 +52,24 @@ void loop() {
   if(comenzar==1)
   { 
     if(funcion=="SIN")
-    {
+    {   
+        //ESTA ES UNA FORMA DE GRAFICAR EL SEN
         for (int i = 0; i < 360; i++){
-          Serial.println(2.5 + (2.5*sin(DEG_TO_RAD * i )));
+          Serial.println(2.5 + (2.5*sin(DEG_TO_RAD * i * freq)));
         }
+
+        /* for (int i = -180; i <= 180; i+=1){ //Recorremos 360 grados
+          sine = sin(i*(3.1415/180.0)); //Convertimos de grados a radianes
+          //Como el arduino va solamente entre 0-5V, aca realizamos una correcion
+          //A sine le multiplicamos por 255 y le dividimos por 2 para corregir la amplitud de la senal
+          //Le sumamos 127 que mas o menos la mitad de 256
+          //Sumando 127 + al valor de la senal tenemos la senal aproximadamente entre 2,5 Volts
+          sine_i = 127 + int(sine * 255.0/2.0);
+
+          analogWrite(pwm, sine_i);
+          Serial.println(sine_i);
+          delay(5);
+        } */
     }  
     if(funcion=="SQUARE")
     {
