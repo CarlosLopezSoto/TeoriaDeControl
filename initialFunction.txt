@@ -22,10 +22,9 @@ void setup() {
   input = Serial.readString(); //Read the data the user has input
   input.toUpperCase();
 
-  longitudInput = input.length();
   longitudFuncion = input.indexOf('('); //Guardar la posicion donde se encuentra el parentesis
   funcion = input.substring(0, longitudFuncion); //Cortar el string de input hasta el primer parentesis para obtener la funcion
-  freq = input.substring((longitudFuncion+1), (longitudInput-1)).toInt(); //Cortar el string de input desde despues del parentesis hasta antes del parentesis para obtener la frecuencia 
+  freq = input.substring((longitudFuncion+1), (input.length()-1)).toInt(); //Cortar el string de input desde despues del parentesis hasta antes del parentesis para obtener la frecuencia 
 
   Serial.print("La funcion es: ");
   Serial.println(funcion);
