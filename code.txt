@@ -58,7 +58,7 @@ void loop() {
     }
     if(tipo=="RAMP2")
     {
-      d = 1000 / freq; //- ((Tv - (1 / f)) / 20.0);
+      d = 1000 / freq; 
 
       while(tipo=="RAMP2")
       {
