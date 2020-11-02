@@ -1,16 +1,17 @@
 //VARIABLES PARA LA FUNCION INICIAL
-int freq;
+int freq; // valor de la frecuencia
 String tipo;
-String input;
+String input; // Valor de entrada
 String subInput;
 int longitudFuncion;
 String funcion;
-int comenzar;
+int comenzar; // Controla el inicio de ejecucion
 
 //VARIABLES PARA GRAFICAR LAS ONDAS
-double d;
 
+int indice;
 //Seno
+
 #define pwm 11
 float sine;
 int sine_i;
@@ -22,10 +23,10 @@ void setup() {
 
   //Mostramos al usuario la forma de ingresar la onda y frecuencia que desea
   Serial.println("Ingrese el comando que desea ejecutar, indicando la frecuencia:");
-  Serial.println("1. SIN(frecuencia)");
-  Serial.println("2. SQUARE(frecuencia)");
-  Serial.println("3. RAMP(frecuencia)");
-  Serial.println("4. RAMP2(frecuencia)");
+  Serial.println("SIN(frecuencia)");
+  Serial.println("SQUARE(frecuencia)");
+  Serial.println("RAMP(frecuencia)");
+  Serial.println("RAMP2(frecuencia)");
 
   while (Serial.available() == 0) {} // Wait for User to Input Data 
   input = Serial.readString(); //Read the data the user has input
@@ -44,66 +45,79 @@ void setup() {
   Serial.println("----------------------");
 }
 
-void loop() {
-  Serial.println("Cuando desee graficar, ingrese un 1.");
-  while (Serial.available() == 0) {} // Wait for User to Input Data
+void loop() 
+{
+ 
   
-  comenzar = Serial.parseInt(); //Read the data the user has input
-  if(comenzar==1)
-  { 
-    if(funcion=="SIN")
-    {   
-        //ESTA ES UNA FORMA DE GRAFICAR EL SEN
-        for (int i = 0; i < 360; i++){
-          Serial.println(2.5 + (2.5*sin(DEG_TO_RAD * i * freq)));
-        }
-
-        /* for (int i = -180; i <= 180; i+=1){ //Recorremos 360 grados
-          sine = sin(i*(3.1415/180.0)); //Convertimos de grados a radianes
-          //Como el arduino va solamente entre 0-5V, aca realizamos una correcion
-          //A sine le multiplicamos por 255 y le dividimos por 2 para corregir la amplitud de la senal
-          //Le sumamos 127 que mas o menos la mitad de 256
-          //Sumando 127 + al valor de la senal tenemos la senal aproximadamente entre 2,5 Volts
-          sine_i = 127 + int(sine * 255.0/2.0);
-
-          analogWrite(pwm, sine_i);
-          Serial.println(sine_i);
-          delay(5);
-        } */
-    }  
-    if(funcion=="SQUARE")
+    // A continucion dependiendo de la 
+    // funcion ingresada por el usuario se ejecutara 
+    // el correspondiente codigo
+   if(funcion=="SQUARE")
     {
-      tone(3, freq); // Definir el pin de OUTPUT, y la frecuencia generada
+      tone(pwm, freq); // Definir el pin de OUTPUT, y la frecuencia generada
     }
     if(funcion=="RAMP")
-    {   
-  	  d = 1000 / freq;
-      while(funcion=="RAMP")
+    {    
+      for(int j =0;j<freq;j++)
       {
-        for(int i=0;i<20;i++) {
-          Serial.print(map(i, 0, 19, 0, 255));
-          Serial.print("\n");
-          delay(int(d));
-        }  
+        indice=0;
+        analogWrite(pwm,indice);
+        Serial.println(indice);
+        while(indice<255)
+        {
+            indice = indice+freq;
+            if(indice >= 255)
+            {
+              indice=255;
+            }
+            analogWrite(pwm,indice);
+            Serial.println(indice);
+        }
       }
+      indice=0;
+      analogWrite(pwm,indice);
+      Serial.println(indice);
     }
     if(funcion=="RAMP2")
     {
-      d = 1000 / freq; 
-      while(funcion=="RAMP2")
+      
+      for(int j =0;j<freq;j++)
       {
-        for(int i=0;i<10;i++) {
-          Serial.print(map(i, 0, 9, 0, 255));
-          Serial.print("\n");
-          delay(int(d));
+        indice=0;
+        while(indice<255)
+        {
+          indice = indice+freq*2;
+          if(indice >= 255)
+          {
+            indice=255;
+          }  
+          analogWrite(pwm,indice);
+          Serial.println(indice);
         }
-
-        for(int i=9;i>0;i--) {
-          Serial.print(map(i, 0, 9, 0, 255));
-          Serial.print("\n");
-          delay(int(d));
+        
+        while(indice>0)
+        {
+            indice = indice-freq*2;
+            if(indice <= 0)
+            {
+              indice=0;
+            }  
+            analogWrite(pwm,indice);
+            Serial.println(indice); 
         }
       }
     }
-  }
-}
+    if(funcion=="SIN") // Funcion SENO
+    {   
+        //ESTA ES UNA FORMA DE GRAFICAR EL SEN
+        for (int i = 0; i <= 360; i++)
+        {
+          sine = sin(i*(3.1416/180.0)*freq);
+          sine_i=127+int(sine*255.0/2.0);
+          analogWrite(pwm,sine_i);
+          Serial.println(sine_i);
+        }
+    }  
+    
+  
+}	
